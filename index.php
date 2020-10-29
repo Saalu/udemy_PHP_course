@@ -1,10 +1,17 @@
-<?php
-define('NAME', 'mario');
+<?php 
 
-$x= "objective";
+$y = "my email is..";
+$x = "saalu@example.com";
 
-echo "My first PHP file" . " ". $x; 
-// echo $x;
+echo $y . $x;
+
+
+// echo "the ninja screamed \"Whaaaat  \""
+
+echo $y[2];
+echo strlen($y);
+echo strtoupper($x);
+
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +25,6 @@ echo "My first PHP file" . " ". $x;
 <body>
 
 <h1><?php echo "Hello, from Saalu " ?> </h1>
-    <h1><?php echo NAME ?> </h1>
     
 </body>
 </html>
