@@ -31,7 +31,7 @@
             $errors['title'] ='An title is required <br>';
         }else { 
             $title = $_POST['title'];
-            if(preg_match('/^[a-zA-Z\s]+$/', $title)){
+            if(!preg_match('/^[a-zA-Z\s]+$/', $title)){
                 $errors['title'] ='Title must be letters and spaces only';
             }
         }
@@ -39,11 +39,16 @@
             $errors['ingredients'] ='An ingredients is required <br>';
         }else { 
             $ingredients = $_POST['ingredients'];
-            if(preg_match('/^([a-zA-Z\s]+)(,\s*[a-zA-Z\s]*)*$/', $ingredients)){
-                $errors['ingredients'] ='Title must be letters and spaces only';
+            if(!preg_match('/^([a-zA-Z\s]+)(,\s*[a-zA-Z\s]*)*$/', $ingredients)){
+                $errors['ingredients'] ='Ingredients must be a comma seperated list';
             }
         }
        
+        if(array_filter($errors)){
+            echo 'errors in form';
+        }else {
+            header('Location: header.php');
+        }
 
 
      } //end of post request
@@ -63,11 +68,11 @@
         <div class="red-text"><?php echo $errors['email']; ?></div>
 
         <label>Pizza Title:</label>
-        <input type='text' name='title' value="<?php echo htmlspecialchars($email) ?>">
+        <input type='text' name='title' value="<?php echo htmlspecialchars($title) ?>">
         <div class="red-text"><?php echo $errors['title']; ?></div>
 
         <label>Ingredients (comma seperated):</label>
-        <input type='text' name='ingredients' value="<?php echo htmlspecialchars($email) ?>">
+        <input type='text' name='ingredients' value="<?php echo htmlspecialchars($ingredients) ?>">
         <div class="red-text"><?php echo $errors['ingredients']; ?></div>
 
         <div class="center">
