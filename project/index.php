@@ -1,11 +1,7 @@
 
 <?php
 // connect to database
-$conn = mysqli_connect('localhost', 'saalu', '12345', 'dpizza');
-
-if(!$conn){
-    echo 'Connection error' . mysqli_connect_error();
-}
+include('config/db_connection.php');
 
 // write query for all pizzas
 $sql = 'SELECT title, ingredients, id FROM pizzas ORDER BY created_at';
@@ -19,9 +15,7 @@ mysqli_free_result($result);
 // close connections
 mysqli_close($conn);
 
-//  print_r(
-
-// explode(',', $pizzas[0]['ingredients']));
+//  print_r( explode(',', $pizzas[0]['ingredients']));
 
 ?>
 

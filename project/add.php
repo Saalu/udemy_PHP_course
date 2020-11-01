@@ -1,18 +1,20 @@
 <?php
 
-    // if(isset($_GET['submit'])){
+
+// if(isset($_GET['submit'])){
     //     echo $_GET['email'];
     //     echo $_GET['title'];
     //     echo $_GET['indgredients'];
     // }
-
+    
     // if(isset($_POST['submit'])){
-    //     echo htmlspecialchars($_POST['email']);
-    //     echo htmlspecialchars($_POST['title']);
-    //     echo htmlspecialchars($_POST['indgredients']);
-    // }
-
- $email = $title = $ingredients = '';
+        //     echo htmlspecialchars($_POST['email']);
+        //     echo htmlspecialchars($_POST['title']);
+        //     echo htmlspecialchars($_POST['indgredients']);
+        // }
+        
+        $email = $title = $ingredients = '';
+        include('config/db_connection.php');
 
  $errors = array('email' => '' ,'title' => '' ,'ingredients' => '' );
 
@@ -47,7 +49,22 @@
         if(array_filter($errors)){
             echo 'errors in form';
         }else {
-            header('Location: header.php');
+
+            $email = mysqli_real_escape_string($conn, $_POST['email']);
+            $title = mysqli_real_escape_string($conn, $_POST['title']);
+            $ingredients = mysqli_real_escape_string($conn, $_POST['ingredients']);
+
+            // create sql
+            $sql = "INSERT INTO pizzas(title, email, ingredients) VALUES('$title', '$email', '$ingredients')";
+
+            // save to db and check..
+            if(mysqli_query($conn, $sql)){
+                // Success
+                header('Location: index.php');
+            }else{
+                // error
+                echo 'query error: ' . mysqli_error($conn);
+            }
         }
 
 
