@@ -1,18 +1,20 @@
 <?php
 
-    // if(isset($_GET['submit'])){
+
+// if(isset($_GET['submit'])){
     //     echo $_GET['email'];
     //     echo $_GET['title'];
     //     echo $_GET['indgredients'];
     // }
-
+    
     // if(isset($_POST['submit'])){
-    //     echo htmlspecialchars($_POST['email']);
-    //     echo htmlspecialchars($_POST['title']);
-    //     echo htmlspecialchars($_POST['indgredients']);
-    // }
-
- $email = $title = $ingredients = '';
+        //     echo htmlspecialchars($_POST['email']);
+        //     echo htmlspecialchars($_POST['title']);
+        //     echo htmlspecialchars($_POST['indgredients']);
+        // }
+        
+        $email = $title = $ingredients = '';
+        include('config/db_connection.php');
 
  $errors = array('email' => '' ,'title' => '' ,'ingredients' => '' );
 
@@ -31,7 +33,7 @@
             $errors['title'] ='An title is required <br>';
         }else { 
             $title = $_POST['title'];
-            if(preg_match('/^[a-zA-Z\s]+$/', $title)){
+            if(!preg_match('/^[a-zA-Z\s]+$/', $title)){
                 $errors['title'] ='Title must be letters and spaces only';
             }
         }
@@ -39,11 +41,31 @@
             $errors['ingredients'] ='An ingredients is required <br>';
         }else { 
             $ingredients = $_POST['ingredients'];
-            if(preg_match('/^([a-zA-Z\s]+)(,\s*[a-zA-Z\s]*)*$/', $ingredients)){
-                $errors['ingredients'] ='Title must be letters and spaces only';
+            if(!preg_match('/^([a-zA-Z\s]+)(,\s*[a-zA-Z\s]*)*$/', $ingredients)){
+                $errors['ingredients'] ='Ingredients must be a comma seperated list';
             }
         }
        
+        if(array_filter($errors)){
+            echo 'errors in form';
+        }else {
+
+            $email = mysqli_real_escape_string($conn, $_POST['email']);
+            $title = mysqli_real_escape_string($conn, $_POST['title']);
+            $ingredients = mysqli_real_escape_string($conn, $_POST['ingredients']);
+
+            // create sql
+            $sql = "INSERT INTO pizzas(title, email, ingredients) VALUES('$title', '$email', '$ingredients')";
+
+            // save to db and check..
+            if(mysqli_query($conn, $sql)){
+                // Success
+                header('Location: index.php');
+            }else{
+                // error
+                echo 'query error: ' . mysqli_error($conn);
+            }
+        }
 
 
      } //end of post request
@@ -63,11 +85,11 @@
         <div class="red-text"><?php echo $errors['email']; ?></div>
 
         <label>Pizza Title:</label>
-        <input type='text' name='title' value="<?php echo htmlspecialchars($email) ?>">
+        <input type='text' name='title' value="<?php echo htmlspecialchars($title) ?>">
         <div class="red-text"><?php echo $errors['title']; ?></div>
 
         <label>Ingredients (comma seperated):</label>
-        <input type='text' name='ingredients' value="<?php echo htmlspecialchars($email) ?>">
+        <input type='text' name='ingredients' value="<?php echo htmlspecialchars($ingredients) ?>">
         <div class="red-text"><?php echo $errors['ingredients']; ?></div>
 
         <div class="center">
