@@ -1,14 +1,9 @@
 
 <?php 
-
-    $Names = array('Adamu', 'Sule', 'Abubakar', 'Saalu', 'Mariam', 'Fati');
-    for($i=0; $i<=5; $i++){
-        if($Names[$i] == 'Saalu'){
-        break;
-        }
-        echo $Names[$i] . "<br>";
-        //  print_r($Names);
-    }
+$Numbers = array(8, 60, 100, 25, 5);
+foreach($Numbers as $Num){
+    echo "Numbers: {$Num} <br> ";
+}
 
 
 
